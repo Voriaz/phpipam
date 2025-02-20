@@ -72,11 +72,17 @@ foreach ($data as &$cdata) {
 		if ((!isset($cdata[$creq]) or ($cdata[$creq] == ""))) { $msg.= "Required field ".$creq." missing or empty."; $action = "error"; }
 	}
 
-	# Check if section is provided and valid and link it if it is
-	if (!isset($section_names[strtolower($cdata['sections'])])) {
-		$msg.= "Invalid sections."; $action = "error";
-	} else {
-		$cdata['sections'] = $section_names[strtolower($cdata['sections'])]['id'];
+	# Check if sections are provided and valid and link them if they are
+	$cs = explode(";", $cdata['sections']); 
+	$cdata['sections'] = '';
+	foreach ($cs as $s) {
+		if (!isset($section_names[strtolower($s)])) {
+			$msg.= "Invalid section(s)."; $action = "error";
+		} else {
+			$cdata['sections'] .= $section_names[strtolower($s)]['id'];
+			$cdata['sections'] .= ";";
+		}
+		$d[$k] = trim($cdata['sections'],';');
 	}
 
 	# Check if deviceType is provided and valid and link it if it is
@@ -84,7 +90,7 @@ foreach ($data as &$cdata) {
 	    ) {
 		$msg.= "Invalid deviceType."; $action = "error";
 	} else {
-		$cdata['type'] = $edata['type'][strtolower($cdata['type'])]['tid'];
+		$cdata['type'] = $edata['deviceType'][strtolower($cdata['type'])]['tid'];
 	}
 
 	if ($action != "error") {
