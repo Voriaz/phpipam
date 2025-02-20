@@ -53,7 +53,7 @@ foreach ($devices as $d) {
 
 foreach ($deviceTypes as $d) {
     $d = (array) $d;
-    $edata['deviceTypes'][strtolower($d['tname'])] = $d;
+    $edata['deviceType'][strtolower($d['tname'])] = $d;
 }
 
 #error_log ( "devicestypes : " . json_encode ($deviceTypes) ) ;
@@ -80,7 +80,7 @@ foreach ($data as &$cdata) {
 	}
 
 	# Check if deviceType is provided and valid and link it if it is
-	if (!isset($edata['type'][strtolower($cdata['type'])])
+	if (!isset($edata['deviceType'][strtolower($cdata['type'])])
 	    ) {
 		$msg.= "Invalid deviceType."; $action = "error";
 	} else {
