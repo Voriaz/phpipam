@@ -26,7 +26,7 @@ if (!isset($custom_fields)) { $custom_fields = $Tools->fetch_custom_fields("devi
 
 # check which sections we need to care about
 $used_section = array();
-foreach ($data as &$cdata) { $used_section[strtolower($cdata['section'])]=$cdata['section']; }
+foreach ($data as &$cdata) { $used_section[strtolower($cdata['sections'])]=$cdata['sections']; }
 
 # fetch all sections and load all subnets
 $all_sections = $Sections->fetch_all_sections();
@@ -73,18 +73,18 @@ foreach ($data as &$cdata) {
 	}
 
 	# Check if section is provided and valid and link it if it is
-	if (!isset($section_names[strtolower($cdata['section'])])) {
-		$msg.= "Invalid section."; $action = "error";
+	if (!isset($section_names[strtolower($cdata['sections'])])) {
+		$msg.= "Invalid sections."; $action = "error";
 	} else {
-		$cdata['sections'] = $section_names[strtolower($cdata['section'])]['id'];
+		$cdata['sections'] = $section_names[strtolower($cdata['sections'])]['id'];
 	}
 
 	# Check if deviceType is provided and valid and link it if it is
-	if (!isset($edata['deviceTypes'][strtolower($cdata['deviceType'])])
+	if (!isset($edata['type'][strtolower($cdata['type'])])
 	    ) {
 		$msg.= "Invalid deviceType."; $action = "error";
 	} else {
-		$cdata['type'] = $edata['deviceTypes'][strtolower($cdata['deviceType'])]['tid'];
+		$cdata['type'] = $edata['type'][strtolower($cdata['type'])]['tid'];
 	}
 
 	if ($action != "error") {
@@ -118,7 +118,7 @@ foreach ($data as &$cdata) {
 			# code maintenance here.
 			if ($cdata['description'] != $cedata['description']) { $msg.= "Device description will be updated."; $action = "edit"; }
 			if ($cdata['ip_addr'] != $cedata['ip_addr']) { $msg.= "Device ip_addr will be updated."; $action = "edit"; }
-			if ($cdata['type'] != $cedata['type']) { $msg.= "DeviceType will be updated."; $action = "edit"; }
+			if ($cdata['type'] != $cedata['type']) { $msg.= "type will be updated."; $action = "edit"; }
 			if ($cdata['sectionId'] != $cedata['sectionId']) { $msg.= "sectionId will be updated."; $action = "edit"; }
 			if ($cdata['rack'] != $cedata['rack']) { $msg.= "rack will be updated."; $action = "edit"; }
 			if ($cdata['rack_start'] != $cedata['rack_start']) { $msg.= "rack_start will be updated."; $action = "edit"; }
