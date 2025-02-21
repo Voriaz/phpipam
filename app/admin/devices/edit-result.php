@@ -61,7 +61,7 @@ if($POST->hostname == "") 											{ $Result->show("danger", _('Hostname is ma
 
 # Check if duplicate hostname
 // Error duplicate when (action=add && duplicate found) or (action=edit && duplicate found) 
-if($POST->action != "delete" && isset($devices[strtolower($POST->hostname)]) && $devices[strtolower($POST->hostname)]['id'] != $POST->switchid ) 								{ $Result->show("danger", _('Hostname already exist in database').'!', true); }
+if($POST->action != "delete" && isset($devices[strtolower(trim($POST->hostname))]) && $devices[strtolower(trim($POST->hostname))]['id'] != $POST->switchid ) 								{ $Result->show("danger", _('Hostname already exist in database').'!', true); }
 
 # Validate ip_addr
 if(
@@ -97,10 +97,10 @@ if ($POST->rack !== "0" && $User->get_module_permissions ("racks")>=User::ACCESS
 # set update values
 $values = array(
 				"id"          =>$POST->switchid,
-				"hostname"    =>$POST->hostname,
+				"hostname"    =>trim($POST->hostname),
 				"ip_addr"     =>$POST->ip_addr,
 				"type"        =>$POST->type,
-				"description" =>$POST->description,
+				"description" =>trim($POST->description),
 				"sections"    =>$POST->sections,
 				"location"    =>$POST->location
 				);
