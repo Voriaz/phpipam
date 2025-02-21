@@ -76,7 +76,7 @@ foreach ($data as &$cdata) {
 	$cs = explode(";", $cdata['sections']); 
 	$cdata['sections'] = '';
 	foreach ($cs as $s) {
-		if (!isset($section_names[strtolower($s)])) {
+		if (!isset($s) && !isset($section_names[strtolower($s)])) {
 			$msg.= "Invalid section(s)."; $action = "error";
 		} else {
 			$cdata['sections'] .= $section_names[strtolower($s)]['id'];
@@ -86,7 +86,7 @@ foreach ($data as &$cdata) {
 	}
 
 	# Check if deviceType is provided and valid and link it if it is
-	if (!isset($edata['deviceType'][strtolower($cdata['type'])])
+	if (!isset($cdata['type']) && !isset($edata['deviceType'][strtolower($cdata['type'])])
 	    ) {
 		$msg.= "Invalid deviceType."; $action = "error";
 	} else {
