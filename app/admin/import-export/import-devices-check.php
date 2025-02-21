@@ -82,8 +82,8 @@ foreach ($data as &$cdata) {
 			$cdata['sections'] .= $section_names[strtolower($s)]['id'];
 			$cdata['sections'] .= ";";
 		}
-		$d[$k] = trim($cdata['sections'],';');
 	}
+	$cdata['sections'] = trim($cdata['sections'],';');
 
 	# Check if deviceType is provided and valid and link it if it is
 	if (!isset($cdata['type']) && !isset($edata['deviceType'][strtolower($cdata['type'])])
