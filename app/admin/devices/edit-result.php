@@ -15,6 +15,7 @@ $Tools	 	= new Tools ($Database);
 $Racks      = new phpipam_rack ($Database);
 $Result 	= new Result ();
 if (!isset($Devices)) { $Devices = new Devices ($Database); }
+if (!isset($Addresses)) { $Addresses = new Addresses ($Database); }
 
 # verify that user is logged in
 $User->check_user_session();
@@ -60,6 +61,15 @@ if($POST->hostname == "") 											{ $Result->show("danger", _('Hostname is ma
 
 # Check if duplicate hostname
 if(isset($devices[strtolower($POST->hostname)])) 								{ $Result->show("danger", _('Hostname already exist in database').'!', true); }
+
+if(
+    isset($POST->ip_addr) &&
+    !is_blank($POST->ip_addr) &&
+    !$Addresses->validate_ip($POST->ip_addr)
+   )
+{
+    $Result->show("danger", _('Invalid IP address').'!', true);
+}
 
 # rack checks
 if ($POST->rack !== "0" && $User->get_module_permissions ("racks")>=User::ACCESS_R) {
