@@ -60,11 +60,12 @@ $POST->sections = !empty($temp) ? implode(";", $temp) : null;
 if($POST->hostname == "") 											{ $Result->show("danger", _('Hostname is mandatory').'!', true); }
 
 # Check if duplicate hostname
-if($POST->action == "add" && isset($devices[strtolower($POST->hostname)])) 								{ $Result->show("danger", _('Hostname already exist in database').'!', true); }
+// Error duplicate when (action=add && duplicate found) or (action=edit && duplicate found) 
+if($POST->action != "delete" && isset($devices[strtolower($POST->hostname)]) && $devices[strtolower($POST->hostname)]['id'] != $POST->switchid ) 								{ $Result->show("danger", _('Hostname already exist in database').'!', true); }
 
 # Validate ip_addr
 if(
-	$POST->action == "add" &&
+	$POST->action != "delete" &&
     isset($POST->ip_addr) &&
     !is_blank($POST->ip_addr) &&
     !$Addresses->validate_ip($POST->ip_addr)
