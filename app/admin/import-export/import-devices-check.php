@@ -117,7 +117,7 @@ foreach ($data as &$cdata) {
 		if (isset($edata['devices'][strtolower($cdata['hostname'])]) ) {
     		$cdata['id'] = $edata['devices'][strtolower($cdata['hostname'])]['id'];
 			# copy content to a variable for easier checks
-			$cedata = $edata[strtolower($cdata['hostname'])];
+			$cedata = $edata['devices'][strtolower($cdata['hostname'])];
 			# Check if we need to change any fields
 			$action = "skip"; # skip duplicate fields if identical, update if different
 			# Should we just let the database decided to update or not?  Nice for UI, but alot of
