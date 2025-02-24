@@ -48,7 +48,12 @@ foreach ($all_sections as $section) {
 
 foreach ($devices as $d) {
     $d = (array) $d;
-    $edata['devices'][strtolower($d['hostname'])] = $d;
+	# Decode HTML entity in text fields
+    $d['hostname'] = html_entity_decode($d['hostname']);
+    $d['description'] = html_entity_decode($d['description']);
+    $d['sections'] = html_entity_decode($d['sections']);
+    $d['type'] = html_entity_decode($d['type']);
+    $edata['devices'][html_entity_decode(strtolower($d['hostname']))] = $d;
 }
 
 foreach ($deviceTypes as $d) {
@@ -73,10 +78,11 @@ foreach ($data as &$cdata) {
 	}
 
 	# Decode HTML entity in text fields
-	if (isset($cdata['hostname'])) { $cdata['hostname'] = html_entity_decode($cdata['hostname']); }
-	if (isset($cdata['description'])) { $cdata['description'] = html_entity_decode($cdata['description']); }
-	if (isset($cdata['sections'])) { $cdata['sections'] = html_entity_decode($cdata['sections']); }
-	if (isset($cdata['type'])) { $cdata['type'] = html_entity_decode($cdata['type']); }
+	# Double decode needed as "&" is also encoded on import...
+	if (isset($cdata['hostname'])) { $cdata['hostname'] = html_entity_decode(html_entity_decode($cdata['hostname'])); }
+	if (isset($cdata['description'])) { $cdata['description'] = html_entity_decode(html_entity_decode($cdata['description'])); }
+	if (isset($cdata['sections'])) { $cdata['sections'] = html_entity_decode(html_entity_decode($cdata['sections'])); }
+	if (isset($cdata['type'])) { $cdata['type'] = html_entity_decode(html_entity_decode($cdata['type'])); }
 
 	# Check if section is provided and valid and link it if it is
 	if (!isset($section_names[strtolower($cdata['section'])])) {
@@ -117,7 +123,7 @@ foreach ($data as &$cdata) {
 		if (isset($edata['devices'][strtolower($cdata['hostname'])]) ) {
     		$cdata['id'] = $edata['devices'][strtolower($cdata['hostname'])]['id'];
 			# copy content to a variable for easier checks
-			$cedata = $edata[strtolower($cdata['hostname'])];
+			$cedata = $edata['devices'][strtolower($cdata['hostname'])];
 			# Check if we need to change any fields
 			$action = "skip"; # skip duplicate fields if identical, update if different
 			# Should we just let the database decided to update or not?  Nice for UI, but alot of
