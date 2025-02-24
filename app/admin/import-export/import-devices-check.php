@@ -72,6 +72,12 @@ foreach ($data as &$cdata) {
 		if ((!isset($cdata[$creq]) or ($cdata[$creq] == ""))) { $msg.= "Required field ".$creq." missing or empty."; $action = "error"; }
 	}
 
+	# Decode HTML entity in text fields
+	if (isset($cdata['hostname'])) { $cdata['hostname'] = html_entity_decode($cdata['hostname']); }
+	if (isset($cdata['description'])) { $cdata['description'] = html_entity_decode($cdata['description']); }
+	if (isset($cdata['sections'])) { $cdata['sections'] = html_entity_decode($cdata['sections']); }
+	if (isset($cdata['type'])) { $cdata['type'] = html_entity_decode($cdata['type']); }
+
 	# Check if section is provided and valid and link it if it is
 	if (!isset($section_names[strtolower($cdata['section'])])) {
 		$msg.= "Invalid section."; $action = "error";

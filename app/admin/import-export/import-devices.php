@@ -40,11 +40,11 @@ foreach ($data as &$cdata) {
 
 		$values = array(
             'id'	    =>$cdata['id'],
-            'hostname'	    =>$cdata['hostname'],
+            'hostname'	    =>html_entity_decode($cdata['hostname']),
             'ip_addr'	    =>$cdata['ip_addr'],
-            'type'	    =>$cdata['type'],
-            'description'	    =>$cdata['description'],
-            'sections'	    =>$cdata['sections'],
+            'type'	    =>html_entity_decode($cdata['type']),
+            'description'	    =>html_entity_decode($cdata['description']),
+            'sections'	    =>html_entity_decode($cdata['sections']),
 #            'snmp_community'	    =>$cdata['snmp_community'],
 #            'snmp_version'	    =>$cdata['snmp_version'],
 #            'snmp_port'	    =>$cdata['snmp_port'],
